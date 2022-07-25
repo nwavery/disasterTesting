@@ -1,4 +1,4 @@
-package com.training.recovery.labor.response;
+package com.training.recovery.labor.security;
 
 import java.util.List;
 

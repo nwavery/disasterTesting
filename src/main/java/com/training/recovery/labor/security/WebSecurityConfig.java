@@ -26,10 +26,6 @@ import com.training.recovery.labor.service.UserDetailsServiceImpl;
     // jsr250Enabled = true,
     prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-  
-  @Value("${spring.h2.console.path}")
-  private String h2ConsolePath;
-  
   @Autowired
   UserDetailsServiceImpl userDetailsService;
 
@@ -63,12 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
       .authorizeRequests().antMatchers("/api/auth/**").permitAll()
-      .antMatchers("/api/test/**").permitAll()
-      .antMatchers(h2ConsolePath + "/**").permitAll()
+      .antMatchers("/api/test/**").permitAll().antMatchers("/api/tim/**").permitAll()
+      .antMatchers("/api/mac/**").permitAll().antMatchers("/api/job/**").permitAll()
       .anyRequest().authenticated();
-    
-    // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-    http.headers().frameOptions().sameOrigin();
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
